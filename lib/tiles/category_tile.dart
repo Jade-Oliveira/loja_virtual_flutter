@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:loja_virtual_flutter/screens/category_screen.dart';
 
 class CategoryTile extends StatelessWidget {
 
@@ -16,7 +17,16 @@ class CategoryTile extends StatelessWidget {
       leading: CircleAvatar(
         radius: 25.0,
         backgroundColor: Colors.transparent,
+        backgroundImage: NetworkImage(snapshot['icon']),
       ),
+      title: Text(snapshot['title']),
+      //seta do lado direito
+      trailing: Icon(Icons.keyboard_arrow_right),
+      onTap: (){
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => CategoryScreen(snapshot))
+        );
+      },
     );
   }
 }
