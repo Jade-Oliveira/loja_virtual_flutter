@@ -129,7 +129,7 @@ class _ProductScreenState extends State<ProductScreen> {
                       'Adicionar ao Carrinho',
                       style: TextStyle(fontSize: 18.0, color: Colors.white),
                     ),
-                    //função que vai desabilitar o botão
+                    //função que vai desabilitar o botão se não tiver tamanho escolhido
                     onPressed: size != null ? () {} : null,
                   ),
                 ),
