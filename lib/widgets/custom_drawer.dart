@@ -48,24 +48,32 @@ class CustomDrawer extends StatelessWidget {
                         //coloco a coluna dentro do ScopedModel porque vai ser a única parte que vai modificar quando o usuário logar
                         child: ScopedModelDescendant<UserModel>(
                           builder: (context, child, model) {
+                            print(model.isLoggedIn());
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Olá,',
+                                Text(
+                                    "Olá, ${!model.isLoggedIn() ? '' : model.userData['name']}",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18.0)),
                                 GestureDetector(
-                                  child: Text('Entre ou cadastre-se >',
+                                  child: Text(
+                                      !model.isLoggedIn()
+                                          ? 'Entre ou cadastre-se >'
+                                          : 'Sair',
                                       style: TextStyle(
                                           color: Theme.of(context).primaryColor,
                                           fontSize: 16.0,
                                           fontWeight: FontWeight.bold)),
                                   onTap: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                LoginScreen()));
+                                    if (!model.isLoggedIn())
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LoginScreen()));
+                                    else
+                                      model.signOut();
                                   },
                                 )
                               ],

@@ -11,7 +11,7 @@ class UserModel extends Model {
 
   FirebaseAuth _auth = FirebaseAuth.instance;
 
-  late User firebaseUser;
+  User? firebaseUser;
 
   //vai abrigar os dados do usuário
   Map<String, dynamic> userData = Map();
@@ -23,18 +23,17 @@ class UserModel extends Model {
       {required Map<String, dynamic> userData,
       required String pass,
       required VoidCallback onSuccess,
-      required VoidCallback onFail}) {
+      required VoidCallback onFail}) async {
     isLoading = true;
     notifyListeners();
 
-    //aqui tentamos criar nosso usuário
-    _auth
-        .createUserWithEmailAndPassword(
-            email: userData['email'],
-            password:
-                pass) //depois que processar isso, vai chamar a função de dentro do then
-        .then((user) async {
-      firebaseUser = user as User;
+    try {
+      UserCredential teste = await _auth.createUserWithEmailAndPassword(
+          email: userData['email'], password: pass);
+
+      //aqui tentamos criar nosso usuário
+      //depois que processar isso, vai chamar a função
+      firebaseUser = teste.user;
 
       //para salvar os dados no firestore
       await _saveUserData(userData);
@@ -42,11 +41,11 @@ class UserModel extends Model {
       onSuccess();
       isLoading = false;
       notifyListeners();
-    }).catchError((e) {
+    } catch (e) {
       onFail();
       isLoading = false;
       notifyListeners();
-    });
+    }
   }
 
   void signIn() async {
@@ -61,6 +60,15 @@ class UserModel extends Model {
     notifyListeners();
   }
 
+  void signOut() async {
+    await _auth.signOut();
+
+    userData = Map();
+    firebaseUser = null;
+
+    notifyListeners();
+  }
+
   void recoverPass() {}
 
   //usamos _ para funções internas
@@ -69,7 +77,7 @@ class UserModel extends Model {
     this.userData = userData;
     await FirebaseFirestore.instance
         .collection('users')
-        .doc(firebaseUser.uid)
+        .doc(firebaseUser!.uid)
         .set(userData);
   }
 
