@@ -62,21 +62,27 @@ class CategoryScreen extends StatelessWidget {
                           //especifica quantos itens vou ter na grade e recebe todos os documentos
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index) {
+                            ProductData data = ProductData.fromDocument(
+                                snapshot.data!.docs[index]);
+                            //salvo a categoria do produto dentro do próprio produto para que possa ser utilizada novamente depois
+                            data.category = this.snapshot.id;
+
                             //vai retornar o item que vamos mostrar em cada posição
                             //pegando a lista de documentos (docs) através do index passado no construtor dessa função anônima, transformando em um objeto ProductData
                             //para gerenciar os dados, e passo esse productData para o ProductTile
-                            return ProductTile(
-                                'grid',
-                                ProductData.fromDocument(
-                                    snapshot.data!.docs[index]));
+                            return ProductTile('grid', data);
                             //essa conversão facilita caso no futuro seja necessário alterar para outro banco de dados, nesse caso será necessário alterar apenas a classe ProductData
                           }),
                       ListView.builder(
-                        padding: EdgeInsets.all(4.0),
+                          padding: EdgeInsets.all(4.0),
                           itemCount: snapshot.data!.docs.length,
-                          itemBuilder: (context, index){
-                            return ProductTile('list', ProductData.fromDocument(
-                                snapshot.data!.docs[index]));
+                          itemBuilder: (context, index) {
+                            ProductData data = ProductData.fromDocument(
+                                snapshot.data!.docs[index]);
+                            //salvo a categoria do produto dentro do próprio produto para que possa ser utilizada novamente depois
+                            data.category = this.snapshot.id;
+
+                            return ProductTile('list', data);
                           })
                     ],
                   );

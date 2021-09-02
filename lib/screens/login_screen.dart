@@ -83,7 +83,23 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: ButtonStyle(
                         padding: MaterialStateProperty.all(EdgeInsets.zero),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        if (_emailController.text.isEmpty)
+                          _scaffoldKey.currentState?.showSnackBar(SnackBar(
+                            content: Text(
+                                "Insira seu e-mail para recuperação da senha!"),
+                            backgroundColor: Colors.redAccent,
+                            duration: Duration(seconds: 2),
+                          ));
+                        else {
+                          model.recoverPass(_emailController.text);
+                          _scaffoldKey.currentState?.showSnackBar(SnackBar(
+                            content: Text("Confira seu e-mail!"),
+                            backgroundColor: Theme.of(context).primaryColor,
+                            duration: Duration(seconds: 2),
+                          ));
+                        }
+                      },
                     ),
                   ),
                   SizedBox(

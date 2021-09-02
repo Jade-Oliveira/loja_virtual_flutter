@@ -17,6 +17,10 @@ class UserModel extends Model {
   //variável que vai indicar quando o UserModel tá processando algo
   bool isLoading = false;
 
+  //método que vai me permitir acessar o userModel de qualquer lugar do app
+  static UserModel of(BuildContext context) =>
+      ScopedModel.of<UserModel>(context);
+
   //voidCallback, função que vamos passar e ela será chamada dentro da função
   void signUp(
       {required Map<String, dynamic> userData,
@@ -83,7 +87,10 @@ class UserModel extends Model {
     notifyListeners();
   }
 
-  void recoverPass() {}
+  void recoverPass(String email) {
+    //função do firebase para recuperação de senha
+    _auth.sendPasswordResetEmail(email: email);
+  }
 
   //usamos _ para funções internas
   //salvamos os dados na coleção users no documento correspondente ao id do usuário
@@ -100,7 +107,6 @@ class UserModel extends Model {
     return firebaseUser != null;
   }
 
-  //bug na snackbar da signUp também****
   //função para pegar os dados do usuário do banco de dados
   Future<Null> _loadCurrentUser() async {
     //verifica se o usuário é nulo e se for o caso, ou seja, não tenho nenhum usuário já logado, vou tentar pegar os dados do usuário atual

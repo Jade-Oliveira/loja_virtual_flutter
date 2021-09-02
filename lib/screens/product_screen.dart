@@ -1,6 +1,10 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:loja_virtual_flutter/datas/cart_product.dart';
 import 'package:loja_virtual_flutter/datas/product_data.dart';
+import 'package:loja_virtual_flutter/models/cart_model.dart';
+import 'package:loja_virtual_flutter/models/user_model.dart';
+import 'package:loja_virtual_flutter/screens/login_screen.dart';
 
 class ProductScreen extends StatefulWidget {
   //recebemos o produto
@@ -126,11 +130,30 @@ class _ProductScreenState extends State<ProductScreen> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(primary: primaryColor),
                     child: Text(
-                      'Adicionar ao Carrinho',
+                      UserModel.of(context).isLoggedIn()
+                          ? 'Adicionar ao Carrinho'
+                          : 'Entre para comprar',
                       style: TextStyle(fontSize: 18.0, color: Colors.white),
                     ),
                     //função que vai desabilitar o botão se não tiver tamanho escolhido
-                    onPressed: size != null ? () {} : null,
+                    onPressed: size != null
+                        ? () {
+                            //usando o método criado no UserModel consigo acessar ele
+                            //tanto na userModel quanto na navigator há uma procura de um objeto desse tipo na árvore
+                            if (UserModel.of(context).isLoggedIn()) {
+                              CartProduct cartProduct = CartProduct();
+                              cartProduct.size = size!;
+                              cartProduct.quantity = 1;
+                              cartProduct.pid = product.id;
+                              cartProduct.category = product.category;
+
+                              CartModel.of(context).addCartItem(cartProduct);
+                            } else {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => LoginScreen()));
+                            }
+                          }
+                        : null,
                   ),
                 ),
                 SizedBox(
@@ -143,7 +166,8 @@ class _ProductScreenState extends State<ProductScreen> {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                Text(product.description,
+                Text(
+                  product.description,
                   style: TextStyle(fontSize: 16.0),
                 )
               ],

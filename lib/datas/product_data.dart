@@ -21,5 +21,10 @@ class ProductData {
     price = 0.0 + snapshot['price'];
     images = snapshot['images'];
     sizes = snapshot['sizes'];
-  }//convertendo os dados do documento para os dados da nossa classe
+  } //convertendo os dados do documento para os dados da nossa classe
+
+  //função que resume as informações que queremos mostrar nos pedidos
+  Map<String, dynamic> toResumedMap() {
+    return {'title': title, 'description': description, 'price': price};
+  }
 }
