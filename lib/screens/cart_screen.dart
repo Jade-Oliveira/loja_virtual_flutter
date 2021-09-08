@@ -3,7 +3,9 @@ import 'package:loja_virtual_flutter/models/cart_model.dart';
 import 'package:loja_virtual_flutter/models/user_model.dart';
 import 'package:loja_virtual_flutter/screens/login_screen.dart';
 import 'package:loja_virtual_flutter/tiles/cart_tile.dart';
-import 'package:loja_virtual_flutter/widgets/discount_cart.dart';
+import 'package:loja_virtual_flutter/widgets/cart_price.dart';
+import 'package:loja_virtual_flutter/widgets/discount_card.dart';
+import 'package:loja_virtual_flutter/widgets/ship_card.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class CartScreen extends StatelessWidget {
@@ -85,7 +87,9 @@ class CartScreen extends StatelessWidget {
                     return CartTile(product);
                   }).toList(),
                 ),
-                DiscountCart()
+                DiscountCart(),
+                ShipCard(),
+                CartPrice(),
               ],
             );
           }

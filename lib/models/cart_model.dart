@@ -11,11 +11,15 @@ class CartModel extends Model {
   List<CartProduct> products = [];
 
   String? couponCode;
-  int discoutnPercentage = 0;
+  int? discoutnPercentage = 0;
 
   bool isLoading = false;
 
-  CartModel(this.user) {
+  CartModel(this.user, BuildContext context) {
+    if (UserModel.of(context).firebaseUser != null) {
+      this.user = UserModel.of(context);
+      _loadCartItems();
+    }
     if (user.isLoggedIn()) _loadCartItems();
   }
 

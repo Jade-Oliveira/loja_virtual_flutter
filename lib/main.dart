@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       child: ScopedModelDescendant<UserModel>(
         builder: (context, child, model) {
           return ScopedModel<CartModel>(
-            model: CartModel(model),
+            model: CartModel(model, context),
             child: MaterialApp(
               title: "Jade's Clothing",
               theme: ThemeData(

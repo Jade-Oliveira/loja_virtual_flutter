@@ -121,7 +121,7 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void _onSuccess() {
-    _scaffoldKey.currentState?.showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text("Usuário criado com sucesso!"),
       backgroundColor: Theme.of(context).primaryColor,
       duration: Duration(seconds: 2),
@@ -133,7 +133,7 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void _onFail() {
-    _scaffoldKey.currentState?.showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text("Falha ao criar usuário!"),
       backgroundColor: Colors.redAccent,
       duration: Duration(seconds: 2),

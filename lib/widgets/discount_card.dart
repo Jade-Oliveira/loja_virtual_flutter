@@ -26,7 +26,7 @@ class DiscountCart extends StatelessWidget {
               decoration: InputDecoration(
                   border: OutlineInputBorder(), hintText: 'Digite seu cupom'),
               //texto inicial que o TextFormField vai ter
-              //quando abrir vai colocar o código de cupom que tá tá aplicado ou deixar em branco
+              //quando abrir vai colocar o código de cupom que tá aplicado ou deixar em branco
               initialValue: CartModel.of(context).couponCode ?? '',
               //quando digitar o cupom e pressionar o concluído vai aplicar esse cupom
               onFieldSubmitted: (text) {
@@ -35,6 +35,10 @@ class DiscountCart extends StatelessWidget {
                     .doc(text)
                     .get()
                     .then((docSnap) {
+                  //não entendi o que é esse docSnap
+                  //entendi que a função anônima vai conter isso, mas não o que é
+                  //seria o texto do cupom?
+                  //aqui verifica se o cupom existe no banco de dados, mas teoricamente ele não pode vir nulo
                   if (docSnap.data != null) {
                     CartModel.of(context).setCoupon(text, docSnap['percent']);
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
