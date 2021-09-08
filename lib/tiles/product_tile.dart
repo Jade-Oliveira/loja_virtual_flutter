@@ -49,7 +49,7 @@ class ProductTile extends StatelessWidget {
                                   height: 4.0,
                                 ),
                                 Text(
-                                  'R\$ ${product.price!.toStringAsFixed(2)}',
+                                  'R\$ ${product.price.toStringAsFixed(2)}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Theme.of(context).primaryColor,
@@ -88,7 +88,7 @@ class ProductTile extends StatelessWidget {
                                 height: 4.0,
                               ),
                               Text(
-                                'R\$ ${product.price!.toStringAsFixed(2)}',
+                                'R\$ ${product.price.toStringAsFixed(2)}',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Theme.of(context).primaryColor,

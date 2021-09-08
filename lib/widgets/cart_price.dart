@@ -3,7 +3,9 @@ import 'package:loja_virtual_flutter/models/cart_model.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class CartPrice extends StatelessWidget {
-  const CartPrice({Key? key}) : super(key: key);
+  final VoidCallback buy;
+
+  CartPrice(this.buy);
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +15,10 @@ class CartPrice extends StatelessWidget {
         padding: EdgeInsets.all(16.0),
         child: ScopedModelDescendant<CartModel>(
           builder: (context, child, model) {
+            double price = model.getProductsPrice();
+            double discount = model.getDiscount();
+            double ship = model.getShipPrice();
+
             return Column(
               //stretch para ocupar o máximo da largura possível
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -27,17 +33,26 @@ class CartPrice extends StatelessWidget {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [Text('Subtotal'), Text('R\$ 0.00')],
+                  children: [
+                    Text('Subtotal'),
+                    Text('R\$ ${price.toStringAsFixed(2)}')
+                  ],
                 ),
                 Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [Text('Desconto'), Text('R\$ 0.00')],
+                  children: [
+                    Text('Desconto'),
+                    Text('R\$ -${discount.toStringAsFixed(2)}')
+                  ],
                 ),
                 Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [Text('Entrega'), Text('R\$ 0.00')],
+                  children: [
+                    Text('Entrega'),
+                    Text('R\$ ${ship.toStringAsFixed(2)}')
+                  ],
                 ),
                 Divider(),
                 SizedBox(
@@ -45,7 +60,28 @@ class CartPrice extends StatelessWidget {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [Text('Total'), Text('R\$ 0.00')],
+                  children: [
+                    Text(
+                      'Total',
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                    Text(
+                      'R\$ ${(price - discount + ship).toStringAsFixed(2)}',
+                      style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 16.0),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 12.0),
+                ElevatedButton(
+                  onPressed: buy,
+                  child: Text(
+                    'Finalizar Pedido',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).primaryColor),
                 ),
               ],
             );

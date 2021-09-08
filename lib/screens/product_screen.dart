@@ -75,7 +75,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   height: 5,
                 ),
                 Text(
-                  'R\$ ${product.price!.toStringAsFixed(2)}',
+                  'R\$ ${product.price.toStringAsFixed(2)}',
                   style: TextStyle(
                       fontSize: 22.0,
                       fontWeight: FontWeight.bold,

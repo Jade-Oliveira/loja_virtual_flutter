@@ -9,7 +9,7 @@ class ProductData {
   String? id;
   String? title;
   String? description;
-  double? price;
+  late double price;
   List? images;
   List? sizes;
 

@@ -11,7 +11,7 @@ class CartModel extends Model {
   List<CartProduct> products = [];
 
   String? couponCode;
-  int? discoutnPercentage = 0;
+  int discountPercentage = 0;
 
   bool isLoading = false;
 
@@ -96,6 +96,85 @@ class CartModel extends Model {
 
   void setCoupon(String couponCode, int discountPercentage) {
     this.couponCode = couponCode;
-    this.discoutnPercentage = discountPercentage;
+    this.discountPercentage = discountPercentage;
+  }
+
+  double getProductsPrice() {
+    double price = 0.0;
+
+    for (CartProduct c in products) {
+      if (c.productData != null) {
+        price += c.quantity * c.productData!.price;
+      }
+    }
+    return price;
+  }
+
+  double getDiscount() {
+    return getProductsPrice() * discountPercentage / 100;
+  }
+
+  double getShipPrice() {
+    return 9.99;
+  }
+
+  void updatePrices() {
+    notifyListeners();
+  }
+
+  Future<String> finishOrder() async {
+    if (products.length == 0) return '';
+
+    isLoading = true;
+    notifyListeners();
+
+    double productsPrice = getProductsPrice();
+    double discount = getDiscount();
+    double shipPrice = getShipPrice();
+
+    //adicionar as ordens no firebase
+    //recupero o id do pedido a partir da referência do pedido
+    DocumentReference refOrder =
+        await FirebaseFirestore.instance.collection('orders').add({
+      'clientID': user.firebaseUser!.uid,
+      //mapeamos a lista de produtos transformando cada cartProduct em um mapa, no firestore é armazenado sempre mapas
+      'products': products.map((cartProduct) => cartProduct.toMap()).toList(),
+      'shipPrice': shipPrice,
+      'productsPrice': productsPrice,
+      'discount': discount,
+      'totalPrice': productsPrice - discount + shipPrice,
+      'status': 1
+    });
+
+    //salvamos o orderID dentro do usuário
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.firebaseUser!.uid)
+        .collection('orders')
+        .doc(refOrder.id)
+        .set({'orderID': refOrder.id});
+
+    //remover todos os produtos, inclusive do firebase
+    QuerySnapshot query = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.firebaseUser!.uid)
+        .collection('cart')
+        .get();
+
+    //pego cada um dos documentos na lista do carrinho, a referência dele e deleta
+    for (DocumentSnapshot doc in query.docs) {
+      doc.reference.delete();
+    }
+
+    //limpo a lista local
+    products.clear();
+
+    couponCode = null;
+    discountPercentage = 0;
+    isLoading = false;
+    notifyListeners();
+
+    //retornamos isso para poder pegar o id desse pedido para um retorno desse id ao usuário
+    return refOrder.id;
   }
 }

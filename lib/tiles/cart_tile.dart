@@ -14,6 +14,10 @@ class CartTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget _buildContent() {
+      //para notificar que algo mudou
+      //quando carregar o preço do produto vai atualizar o valores
+      CartModel.of(context).updatePrices();
+
       return Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -44,7 +48,7 @@ class CartTile extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.w300),
                 ),
                 Text(
-                  "R\$ ${cartProduct.productData!.price!.toStringAsFixed(2)}",
+                  "R\$ ${cartProduct.productData!.price.toStringAsFixed(2)}",
                   style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
