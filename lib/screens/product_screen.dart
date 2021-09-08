@@ -37,7 +37,7 @@ class _ProductScreenState extends State<ProductScreen> {
     //da forma que fizemos acima é possível acessar diretamente as propriedades do product
     return Scaffold(
       appBar: AppBar(
-        title: Text(product.title),
+        title: Text(product.title!),
         centerTitle: true,
       ),
       body: ListView(
@@ -47,7 +47,7 @@ class _ProductScreenState extends State<ProductScreen> {
             aspectRatio: 0.9,
             child: Carousel(
               //pegamos cada uma das url da lista de imagens e transformo em uma imagem vinda do network, por fim transforma em lista
-              images: product.images.map((url) {
+              images: product.images!.map((url) {
                 return NetworkImage(url);
               }).toList(),
               //tamanho do ponto que fica na parte inferior que simboliza qual imagem estamos mostrando na tela
@@ -66,7 +66,7 @@ class _ProductScreenState extends State<ProductScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  product.title,
+                  product.title!,
                   style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
                   //definindo quantidade máxima de linhas
                   maxLines: 3,
@@ -75,7 +75,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   height: 5,
                 ),
                 Text(
-                  'R\$ ${product.price.toStringAsFixed(2)}',
+                  'R\$ ${product.price!.toStringAsFixed(2)}',
                   style: TextStyle(
                       fontSize: 22.0,
                       fontWeight: FontWeight.bold,
@@ -103,7 +103,7 @@ class _ProductScreenState extends State<ProductScreen> {
                       childAspectRatio: 0.5,
                     ),
                     //pegamos o produto atual e a lista de tamanhos, mapeamos isso e transformamos em uma lista
-                    children: product.sizes.map((s) {
+                    children: product.sizes!.map((s) {
                       return GestureDetector(
                         onTap: () {
                           setState(() {
@@ -145,8 +145,8 @@ class _ProductScreenState extends State<ProductScreen> {
                               CartProduct cartProduct = CartProduct();
                               cartProduct.size = size!;
                               cartProduct.quantity = 1;
-                              cartProduct.pid = product.id;
-                              cartProduct.category = product.category;
+                              cartProduct.pid = product.id!;
+                              cartProduct.category = product.category!;
 
                               CartModel.of(context).addCartItem(cartProduct);
 
@@ -172,7 +172,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   ),
                 ),
                 Text(
-                  product.description,
+                  product.description!,
                   style: TextStyle(fontSize: 16.0),
                 )
               ],

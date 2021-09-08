@@ -10,7 +10,14 @@ class CartModel extends Model {
 
   List<CartProduct> products = [];
 
-  CartModel(this.user);
+  String? couponCode;
+  int discoutnPercentage = 0;
+
+  bool isLoading = false;
+
+  CartModel(this.user) {
+    if (user.isLoggedIn()) _loadCartItems();
+  }
 
   static CartModel of(BuildContext context) =>
       ScopedModel.of<CartModel>(context);
@@ -41,5 +48,50 @@ class CartModel extends Model {
     products.remove(cartProduct);
 
     notifyListeners();
+  }
+
+  void decProduct(CartProduct cartProduct) {
+    cartProduct.quantity--;
+
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.firebaseUser!.uid)
+        .collection('cart')
+        .doc(cartProduct.cid)
+        .update(cartProduct.toMap());
+
+    notifyListeners();
+  }
+
+  void incProduct(CartProduct cartProduct) {
+    cartProduct.quantity++;
+
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.firebaseUser!.uid)
+        .collection('cart')
+        .doc(cartProduct.cid)
+        .update(cartProduct.toMap());
+
+    notifyListeners();
+  }
+
+  void _loadCartItems() async {
+    //pega todos os documentos da coleção cart
+    QuerySnapshot query = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.firebaseUser!.uid)
+        .collection('cart')
+        .get();
+
+    //transformo cada documento que retornei do firebase e retorno uma lista com todos os CartProducts
+    products = query.docs.map((doc) => CartProduct.fromDocument(doc)).toList();
+
+    notifyListeners();
+  }
+
+  void setCoupon(String couponCode, int discountPercentage) {
+    this.couponCode = couponCode;
+    this.discoutnPercentage = discountPercentage;
   }
 }

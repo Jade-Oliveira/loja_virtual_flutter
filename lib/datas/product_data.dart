@@ -4,14 +4,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProductData {
-  late String category;
+  String? category;
 
-  late String id;
-  late String title;
-  late String description;
-  late double price;
-  late List images;
-  late List sizes;
+  String? id;
+  String? title;
+  String? description;
+  double? price;
+  List? images;
+  List? sizes;
 
   //pegamos o documento no firebase e transformamos nesses dados citados acima para criar o Product Data
   ProductData.fromDocument(DocumentSnapshot snapshot) {

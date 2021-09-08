@@ -19,7 +19,7 @@ class CartProduct {
   late String size;
 
   //não armazenamos os dados dos produtos no carrinho permanentemente, mas quando abrir o carrinho vou precisar carregar estes dados
-  late ProductData productData;
+  ProductData? productData;
 
   CartProduct();
 

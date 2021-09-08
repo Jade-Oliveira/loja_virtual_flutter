@@ -12,10 +12,9 @@ class ProductTile extends StatelessWidget {
   Widget build(BuildContext context) {
     //usamos inkwell para poder tocar diretamente nele, poderíamos usar o GestureDetector também, as diferença é a animação no toque
     return InkWell(
-      onTap: (){
+      onTap: () {
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => ProductScreen(product))
-        );
+            MaterialPageRoute(builder: (context) => ProductScreen(product)));
       },
       child: Card(
           child: type == 'grid'
@@ -29,7 +28,7 @@ class ProductTile extends StatelessWidget {
                       //defini a altura
                       aspectRatio: 0.8,
                       child: Image.network(
-                        product.images[0],
+                        product.images![0],
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -41,14 +40,16 @@ class ProductTile extends StatelessWidget {
                             child: Column(
                               children: [
                                 Text(
-                                  product.title,
+                                  product.title!,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                                SizedBox(height: 4.0,),
+                                SizedBox(
+                                  height: 4.0,
+                                ),
                                 Text(
-                                  'R\$ ${product.price.toStringAsFixed(2)}',
+                                  'R\$ ${product.price!.toStringAsFixed(2)}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Theme.of(context).primaryColor,
@@ -65,7 +66,7 @@ class ProductTile extends StatelessWidget {
                     Flexible(
                       flex: 1,
                       child: Image.network(
-                        product.images[0],
+                        product.images![0],
                         fit: BoxFit.cover,
                         height: 250.0,
                       ),
@@ -78,14 +79,16 @@ class ProductTile extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                product.title,
+                                product.title!,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
-                              SizedBox(height: 4.0,),
+                              SizedBox(
+                                height: 4.0,
+                              ),
                               Text(
-                                'R\$ ${product.price.toStringAsFixed(2)}',
+                                'R\$ ${product.price!.toStringAsFixed(2)}',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Theme.of(context).primaryColor,
