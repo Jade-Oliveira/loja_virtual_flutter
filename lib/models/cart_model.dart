@@ -15,13 +15,7 @@ class CartModel extends Model {
 
   bool isLoading = false;
 
-  CartModel(this.user, BuildContext context) {
-    if (UserModel.of(context).firebaseUser != null) {
-      this.user = UserModel.of(context);
-      _loadCartItems();
-    }
-    if (user.isLoggedIn()) _loadCartItems();
-  }
+  CartModel(this.user);
 
   static CartModel of(BuildContext context) =>
       ScopedModel.of<CartModel>(context);

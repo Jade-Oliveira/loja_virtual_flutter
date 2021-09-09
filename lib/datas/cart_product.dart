@@ -40,7 +40,7 @@ class CartProduct {
       'quantity': quantity,
       'size': size,
       //aqui vamos armazear só um resumo do produto porque no acompanhamento dos pedidos quero um resumo de cada um dos produtos
-      // 'product': productData.toResumedMap(),
+      'product': productData!.toResumedMap(),
     };
   }
 }

@@ -21,6 +21,13 @@ class UserModel extends Model {
   static UserModel of(BuildContext context) =>
       ScopedModel.of<UserModel>(context);
 
+  @override
+  void addListener(VoidCallback listener) {
+    super.addListener(listener);
+
+    // _loadCurrentUser();
+  }
+
   //voidCallback, função que vamos passar e ela será chamada dentro da função
   void signUp(
       {required Map<String, dynamic> userData,

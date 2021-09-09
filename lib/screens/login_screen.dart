@@ -139,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _onFail() {
-    _scaffoldKey.currentState?.showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text("Falha ao entrar!"),
       backgroundColor: Colors.redAccent,
       duration: Duration(seconds: 2),
