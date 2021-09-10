@@ -25,7 +25,7 @@ class UserModel extends Model {
   void addListener(VoidCallback listener) {
     super.addListener(listener);
 
-    // _loadCurrentUser();
+    _loadCurrentUser();
   }
 
   //voidCallback, função que vamos passar e ela será chamada dentro da função
@@ -117,7 +117,7 @@ class UserModel extends Model {
   //função para pegar os dados do usuário do banco de dados
   Future<Null> _loadCurrentUser() async {
     //verifica se o usuário é nulo e se for o caso, ou seja, não tenho nenhum usuário já logado, vou tentar pegar os dados do usuário atual
-    if (firebaseUser == null) firebaseUser = _auth.currentUser;
+    if (firebaseUser == null) firebaseUser = await _auth.currentUser;
 
     //se ele for diferente de nulo quer dizer que logou, então vou pegar os dados
     if (firebaseUser != null) {

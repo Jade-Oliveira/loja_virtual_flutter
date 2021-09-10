@@ -44,6 +44,7 @@ class PlaceTile extends StatelessWidget {
               TextButton(
                 onPressed: () {
                   launch(
+                      //google maps
                       'https://www.google.com./maps/search/?api=1&query=${snapshot['lat']},'
                       '${snapshot['long']}}');
                 },

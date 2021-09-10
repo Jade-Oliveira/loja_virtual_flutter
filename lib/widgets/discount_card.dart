@@ -47,7 +47,7 @@ class DiscountCart extends StatelessWidget {
                       backgroundColor: Theme.of(context).primaryColor,
                     ));
                   } else {
-                    // CartModel.of(context).setCoupon(null, 0);
+                    CartModel.of(context).setCoupon('', 0);
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text("Cupom não existente"),
                       backgroundColor: Colors.redAccent,
