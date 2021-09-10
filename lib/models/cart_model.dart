@@ -15,7 +15,9 @@ class CartModel extends Model {
 
   bool isLoading = false;
 
-  CartModel(this.user);
+  CartModel(this.user) {
+    if (user.isLoggedIn()) _loadCartItems();
+  }
 
   static CartModel of(BuildContext context) =>
       ScopedModel.of<CartModel>(context);
